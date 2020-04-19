@@ -1,9 +1,23 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+
+import {getAllLevels} from './services/firestore'
+
+
 import logo from './logo.svg';
 import './App.css';
 
-function App() {
-  return (
+const App = () => {
+  useEffect(() => {
+    const dd = getAllLevels();
+
+    console.log(dd);
+
+    return () => {
+      
+    }
+  }, [])
+  
+return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
