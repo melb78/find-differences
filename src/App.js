@@ -1,40 +1,45 @@
-import React, {useEffect} from 'react';
+import React, { useState, useEffect } from "react";
 
-import {getAllLevels} from './services/firestore'
+import { db } from "./services/firestore";
 
-
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
 
 const App = () => {
+
   useEffect(() => {
-    const dd = getAllLevels();
+    // const d = db.ref("/levels").on("value", function (snapshot) {
+    //   console.log(Object.entries(snapshot.val()).map(x => x[1]) );
+    // });
 
-    console.log(dd);
-
-    return () => {
+    db.ref("/levels").once("value")
+    .then(snapshot => {
       
-    }
-  }, [])
-  
-return (
+      const levels = Object.entries(snapshot.val()).map(x => x[1]);
+      setLevelArr(levels);
+      console.log(levels);
+
+      setLeft(levels[0]);
+    })
+    
+    return () => {};
+  }, []);
+
+  const [levelArr, setLevelArr] = useState([])
+  const [left, setLeft] = useState({})
+
+
+  return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <img
+          src={left.left || "https://via.placeholder.com/400x300"}
+          alt="Uploaded Images"
+          height="300"
+          width="400"
+        />
+      
     </div>
   );
-}
+};
 
 export default App;
