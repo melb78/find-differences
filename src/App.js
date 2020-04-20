@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
-
-import { db } from "./services/firestore";
-
-import logo from "./logo.svg";
+import { db } from "./Services/firestore";
 import "./App.css";
 
 const App = () => {
@@ -20,24 +17,33 @@ const App = () => {
       console.log(levels);
 
       setLeft(levels[0]);
+      setRight(levels[0]);
     })
     
     return () => {};
   }, []);
 
-  const [levelArr, setLevelArr] = useState([])
-  const [left, setLeft] = useState({})
-
+  const [levelArr, setLevelArr] = useState([]);
+  const [left, setLeft] = useState({});
+  const [right, setRight] = useState({});
 
   return (
     <div className="App">
       <img
+          id="img-Left"
           src={left.left || "https://via.placeholder.com/400x300"}
           alt="Uploaded Images"
           height="300"
           width="400"
         />
       
+      <img
+          id="img-Right"
+          src={right.right || "https://via.placeholder.com/400x300"}
+          alt="Uploaded Images"
+          height="300"
+          width="400"
+        />
     </div>
   );
 };
