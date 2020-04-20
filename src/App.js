@@ -29,21 +29,23 @@ const App = () => {
 
   return (
     <div className="App">
-      <img
-          id="img-Left"
-          src={left.left || "https://via.placeholder.com/400x300"}
-          alt="Uploaded Images"
-          height="300"
-          width="400"
-        />
-      
-      <img
-          id="img-Right"
-          src={right.right || "https://via.placeholder.com/400x300"}
-          alt="Uploaded Images"
-          height="300"
-          width="400"
-        />
+      <div className="header">
+        <progress value="32" max="100"> 32% </progress>
+      </div>
+
+      <div className="container">
+        <img
+            id="items"
+            src={left.left || "https://via.placeholder.com/400x300"}
+            alt="Uploaded Images"
+          />
+        
+        <img
+            id="items"
+            src={right.right || "https://via.placeholder.com/400x300"}
+            alt="Uploaded Images"
+          />
+      </div>
     </div>
   );
 };
