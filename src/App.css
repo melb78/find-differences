@@ -5,13 +5,12 @@
 .header {
   display: flex;
   justify-content: center;
-  margin-top: 2rem;
-  margin-bottom: 6rem;
 }
 
 .header progress{  
   width: 50%;
-  height: 4rem;
+  justify-content: center;
+  height: 3rem;
 }
 
 .container {
@@ -40,4 +39,20 @@
   max-height: 100%;
   display: block; /* remove extra space below image */
   object-fit: contain;
+}
+
+#myProgress {
+  width: 100%;  
+  background-color: #ddd;
+}
+
+#myBar {
+  width: 100%;
+  height: 120%;
+  background-color: #4CAF50;
+  text-align: center;
+  line-height: 30px;
+  color: white;
+  font-size: 50px;
+  padding: 10px 0px;
 }

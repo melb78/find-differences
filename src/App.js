@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
+import {CountDownTimer} from "./Components/CountDownTimer"
 import { db } from "./Services/firestore";
 import "./App.css";
 
 const App = () => {
-
+  const [levelArr, setLevelArr] = useState([]);
+  const [left, setLeft] = useState({});
+  const [right, setRight] = useState({});
   const [x, setX] = useState(0);
   const [y, setY] = useState(0);
+  const [second, setSecond] = useState(120);
 
   useEffect(() => {
-    // const d = db.ref("/levels").on("value", function (snapshot) {
-    //   console.log(Object.entries(snapshot.val()).map(x => x[1]) );
-    // });
-
     db.ref("/levels").once("value")
     .then(snapshot => {
       
@@ -24,11 +24,7 @@ const App = () => {
     })
     
     return () => {};
-  }, []);
-
-  const [levelArr, setLevelArr] = useState([]);
-  const [left, setLeft] = useState({});
-  const [right, setRight] = useState({});
+  }, []); 
 
   const relativeCoords = ( event ) => {
     console.log(event.target.width);
@@ -42,8 +38,9 @@ const App = () => {
   return (
     <div className="App">
       <div className="header">
-        <progress value="32" max="100"> 32% </progress>
-        <span>X: {x} - Y:{y}</span>
+        {/* <progress value="50" max="100"></progress> */}
+        <CountDownTimer second={second}/>
+        {/* <span>X: {x} - Y:{y}</span> */}
       </div>
 
       <div className="container">
