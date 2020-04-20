@@ -16,21 +16,28 @@
 
 .container {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-content: center;
-}
+  flex-flow: row nowrap;
 
-#items {
-  order: 2;
-  flex-shrink: 4;
-  flex-basis: auto;
-  width: 39.2rem;
-  height: 29rem;  
+  align-items: stretch;
 }
 
 
+.left-half {
+  background-color: #ff9e2c;
+  flex: 1;
+  padding: 1rem;
+}
 
+.right-half {
+  background-color: #b6701e;
+  flex: 1;
+  padding: 1rem;
+}
 
-
+.compare-image {
+  
+  max-width: 100%;
+  max-height: 100%;
+  display: block; /* remove extra space below image */
+  object-fit: contain;
+}
