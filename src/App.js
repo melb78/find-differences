@@ -17,8 +17,6 @@ const App = () => {
       .then((snapshot) => {
         const levels = Object.entries(snapshot.val()).map((x) => x[1]);
         setLevelArr(levels);
-        // console.log(levels);
-
         setLeft(levels[0]);
         setRight(levels[0]);
       });
