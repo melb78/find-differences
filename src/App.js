@@ -58,10 +58,8 @@ const App = () => {
     canvas.style.width ='100%';
     canvas.style.height='100%';
     // ...then set the internal size to match
-    
     canvas.width  = window.innerWidth / 2 - 20; //canvas.offsetWidth;
     canvas.height = window.innerHeight - 100; //canvas.offsetHeight + 400;
-    
   }
 
   const relativeCoords = (event) => {
@@ -87,23 +85,19 @@ const App = () => {
             const cx  = foundResult.x0 + rx;
             const cy  = foundResult.y0 + (foundResult.y1 - foundResult.y0)/2;
             
-            
-
             [leftCanvasContext, rightCanvasContext].forEach(ct => {
               ct.strokeStyle = 'red';
               ct.lineWidth  = 4;
               ct.beginPath();
               ct.ellipse(cx, cy, rx, ry, 0, 0, 2 * Math.PI, false);
               ct.stroke();
-            });
-            
+            });            
           }
       }
       else{
         setGuessWrong(true);
       }
     }
-
   };
 
   const isInRect = (result, top, left) => {
