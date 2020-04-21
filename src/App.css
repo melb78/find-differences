@@ -15,8 +15,9 @@
 
 .container {
   display: flex;
-  flex-flow: row nowrap;
+  /* flex-flow: row nowrap; */
   align-items: stretch;
+  height: 100%;
 }
 
 .left-half {
@@ -52,4 +53,8 @@
   color: white;
   font-size: 50px;
   padding: 10px 0px;
+}
+
+.hiden-Image {
+  display: none;
 }
