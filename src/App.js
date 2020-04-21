@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {CountDownTimer} from "./Components/CountDownTimer"
-import { db } from "./Services/firestore";
+import { db } from "./services/firestore";
 import "./App.css";
 
 const App = () => {
