@@ -14,10 +14,10 @@ export const CountDownTimer = ({ second }) => {
 
   const formatTime = (n) =>
     n.toLocaleString("en-US", { minimumIntegerDigits: 2, useGrouping: false });
-
+    
   return (
-    <div id="myProgress">
-      <div id="myBar">{formatTime(min)}:{formatTime(sec)}</div>
+    <div id="progressBar">
+      <div id="bar">{formatTime(min)}:{formatTime(sec)}</div>
     </div>
   );
 };

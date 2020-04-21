@@ -33,6 +33,10 @@ const App = () => {
     setY(y2);
   };
 
+  const calculatePosition = (posX, posY) => {
+    
+  }
+
   return (
     <div className="App">
       <div className="header">

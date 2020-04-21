@@ -7,7 +7,7 @@
   justify-content: center;
 }
 
-.header progress{  
+.header progress {
   width: 50%;
   justify-content: center;
   height: 3rem;
@@ -16,10 +16,8 @@
 .container {
   display: flex;
   flex-flow: row nowrap;
-
   align-items: stretch;
 }
-
 
 .left-half {
   background-color: #ff9e2c;
@@ -34,22 +32,21 @@
 }
 
 .compare-image {
-  
   max-width: 100%;
   max-height: 100%;
   display: block; /* remove extra space below image */
   object-fit: contain;
 }
 
-#myProgress {
-  width: 100%;  
+#progressBar {
+  width: 100%;
   background-color: #ddd;
 }
 
-#myBar {
+#bar {
   width: 100%;
   height: 120%;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   text-align: center;
   line-height: 30px;
   color: white;
