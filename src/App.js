@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { CountDownTimer } from "./Components/CountDownTimer";
+// import { CountDownTimer } from "./Components/CountDownTimer";
 import { db } from "./Services/firestore";
 import "./App.css";
 
@@ -14,6 +14,14 @@ const App = () => {
   const [rightCanvasContext, setRightCanvasContext] = useState(null);
   const [guessWrong, setGuessWrong] = useState(false);
 
+  const [isInitCanvas, setIsInitCanvas] = useState(false);
+
+  const [counter, setCounter] = useState(120);
+
+  const min = Math.floor((counter % 3600) / 60);
+  const sec = Math.floor((counter % 3600) % 60);
+  const milliSec = (counter % 1) * 100;
+
   const leftCanvas = useRef(null);
   const rightCanvas = useRef(null);
   const leftImage = useRef(null);
@@ -22,49 +30,81 @@ const App = () => {
   const [x, setX] = useState(0);
   const [y, setY] = useState(0);
 
+  const formatTime = (n, minDigit = 2) =>
+    n.toLocaleString("en-US", { minimumIntegerDigits: minDigit, useGrouping: false });
+
   useEffect(() => {
-    fitToContainer(leftCanvas.current);
-    setLeftCanvasContext(leftCanvas.current.getContext("2d"));
-    fitToContainer(rightCanvas.current);
-    setRightCanvasContext(rightCanvas.current.getContext("2d"));
+    if (!isInitCanvas)
+    {
+      fitToContainer(leftCanvas.current);
+      setLeftCanvasContext(leftCanvas.current.getContext("2d"));
+      fitToContainer(rightCanvas.current);
+      setRightCanvasContext(rightCanvas.current.getContext("2d"));
 
-    db.ref("/levels")
-      .once("value")
-      .then((snapshot) => {
-        const levels = Object.entries(snapshot.val()).map((x) => x[1]);
+      db.ref("/levels")
+        .once("value")
+        .then((snapshot) => {
+          const levels = Object.entries(snapshot.val()).map((x) => x[1]);
 
-        console.log(levels);
+          console.log(levels);
 
-        setLevelArr(levels);
-        setCurrentLevel(levels[0]);
-      });
+          setLevelArr(levels);
+          setCurrentLevel(levels[0]);
+        });
 
-    leftImage.current.onload = () => {
-      leftCanvas.current
-        .getContext("2d")
-        .drawImage(
-          leftImage.current,
-          0,
-          0,
-          leftCanvas.current.width,
-          leftCanvas.current.height
-        );
-    };
+      leftImage.current.onload = () => {
+        leftCanvas.current
+          .getContext("2d")
+          .drawImage(
+            leftImage.current,
+            0,
+            0,
+            leftCanvas.current.width,
+            leftCanvas.current.height
+          );
+      }
 
-    rightImage.current.onload = () => {
-      rightCanvas.current
-        .getContext("2d")
-        .drawImage(
-          rightImage.current,
-          0,
-          0,
-          rightCanvas.current.width,
-          rightCanvas.current.height
-        );
-    };
+      rightImage.current.onload = () => {
+        rightCanvas.current
+          .getContext("2d")
+          .drawImage(
+            rightImage.current,
+            0,
+            0,
+            rightCanvas.current.width,
+            rightCanvas.current.height
+          );
+      }
 
-    return () => {};
-  }, []);
+      setIsInitCanvas(true);
+    }
+
+    const guessWrongHandler = () => {
+      if (guessWrong)
+      {
+          setGuessWrong(false);
+          return true;
+      }
+  
+      return false;
+    }
+    
+    const timer = counter > 0 && setInterval(() => {        
+      let newCounter = counter - 0.02;
+      if (guessWrongHandler())
+      {
+        newCounter -= 5;
+      }
+
+      if (newCounter < 0)
+      {
+        newCounter = 0;
+      }
+
+      setCounter(newCounter);
+    }, 20);
+    return () => clearInterval(timer);
+  }, [counter, guessWrong, isInitCanvas]);
 
   const fitToContainer = (canvas) => {
     // Make it visually fill the positioned parent
@@ -142,23 +182,24 @@ const App = () => {
     return true;
   };
 
-  const guessWorngHandler = () => {
-    if (guessWrong) {
-      setGuessWrong(false);
-      return true;
-    }
-
-    return false;
-  };
+  const startAppHandler = () => {
+    setIsInitCanvas(true);
+  }
 
   return (
     <div className="App">
-      <div className="header">
+      <div id="progressBar">
+        <div id="bar">{formatTime(min)}:{formatTime(sec)}:{formatTime(milliSec)}
+          <button className="start-btn" onClick={startAppHandler}>Start</button>
+        </div>
+      </div>
+
+      {/* <div className="header">
         <CountDownTimer second={120} guessWorngHandler={guessWorngHandler} />
         <span>
           X: {x} - Y:{y}
         </span>
-      </div>
+      </div> */}
 
       <div className="container">
         <div className="left-half">
