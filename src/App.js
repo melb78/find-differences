@@ -12,9 +12,10 @@ const App = () => {
 
   const [leftCanvasContext, setLeftCanvasContext] = useState(null);
   const [rightCanvasContext, setRightCanvasContext] = useState(null);
-  const [guessWrong, setGuessWrong] = useState(false);
+  const [guessWrongCount, setGuessWrongCount] = useState(0);
 
   const [isInitCanvas, setIsInitCanvas] = useState(false);
+  const [isTimerActive, setIsTimerActive] = useState(false);
 
   const [counter, setCounter] = useState(120);
 
@@ -79,32 +80,34 @@ const App = () => {
       setIsInitCanvas(true);
     }
 
-    const guessWrongHandler = () => {
-      if (guessWrong)
-      {
-          setGuessWrong(false);
-          return true;
-      }
+    let timer = null;
+    if (isTimerActive)
+    {
+      timer = counter > 0 && setInterval(() => {        
+        let newCounter = counter - 0.02;
+        if (guessWrongCount > 0)
+        {
+          newCounter -= guessWrongCount * 5;
+          setGuessWrongCount(0);
+        }
   
-      return false;
+        if (newCounter < 0)
+        {
+          newCounter = 0;
+        }
+  
+        setCounter(newCounter);
+      }, 20);
     }
-    
-    const timer = counter > 0 && setInterval(() => {        
-      let newCounter = counter - 0.02;
-      if (guessWrongHandler())
+  
+    return () => {
+      if (timer !== null)
       {
-        newCounter -= 5;
+        clearInterval(timer)
       }
+    }
 
-      if (newCounter < 0)
-      {
-        newCounter = 0;
-      }
-
-      setCounter(newCounter);
-    }, 20);
-    return () => clearInterval(timer);
-  }, [counter, guessWrong, isInitCanvas]);
+  }, [counter, guessWrongCount, isInitCanvas, isTimerActive]);
 
   const fitToContainer = (canvas) => {
     // Make it visually fill the positioned parent
@@ -134,11 +137,11 @@ const App = () => {
     // console.log(clientX - bounds.left);
     // console.log(clientY - bounds.top);
 
-    const left = ((clientX - bounds.left) / bounds.width) * targetWidth;
-    const top = ((clientY - bounds.top) / bounds.height) * targetHeight;
+    const left = (clientX - bounds.left) / (bounds.right - bounds.left) * targetWidth;
+    const top = (clientY - bounds.top) / (bounds.bottom - bounds.top) * targetHeight;
 
-    setX(clientX - bounds.left);
-    setY(clientY - bounds.top);
+    setX(left);
+    setY(top);
 
     if (Array.isArray(currentLevel.results)) {
       const foundResult = currentLevel.results.find((r) =>
@@ -168,7 +171,7 @@ const App = () => {
           });
         }
       } else {
-        setGuessWrong(true);
+        setGuessWrongCount(guessWrongCount + 1);
       }
     }
   };
@@ -183,14 +186,14 @@ const App = () => {
   };
 
   const startAppHandler = () => {
-    setIsInitCanvas(true);
+    setIsTimerActive(!isTimerActive);
   }
 
   return (
     <div className="App">
       <div id="progressBar">
         <div id="bar">{formatTime(min)}:{formatTime(sec)}:{formatTime(milliSec)}
-          <button className="start-btn" onClick={startAppHandler}>Start</button>
+  <button className="start-btn" onClick={startAppHandler}>{isTimerActive ? "Stop" : "Start"}</button>
         </div>
       </div>
 
