@@ -125,17 +125,11 @@ const App = () => {
   const relativeCoords = (event) => {
     var bounds = event.target.getBoundingClientRect();
 
-    console.log(bounds);
     const { clientX, clientY } = event;
     let targetWidth = event.target.width;
     let targetHeight = event.target.height;
-    console.log(clientX);
-    console.log(clientY);
     targetWidth = 940;
     targetHeight = 877;
-
-    // console.log(clientX - bounds.left);
-    // console.log(clientY - bounds.top);
 
     const left = (clientX - bounds.left) / (bounds.right - bounds.left) * targetWidth;
     const top = (clientY - bounds.top) / (bounds.bottom - bounds.top) * targetHeight;
